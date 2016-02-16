@@ -111,7 +111,9 @@ function handleParseHeaders(req, res, next) {
 
   if (!info.sessionToken) {
     req.auth = new auth.Auth(req.config, false);
-    next();
+    req.auth.getUserRoles().then(() => {
+      next();
+    });
     return;
   }
 
@@ -119,7 +121,9 @@ function handleParseHeaders(req, res, next) {
     req.config, info.sessionToken).then((auth) => {
       if (auth) {
         req.auth = auth;
-        next();
+        req.auth.getUserRoles().then(() => {
+          next();
+        });
       }
     }).catch((error) => {
       // TODO: Determine the correct error scenario.

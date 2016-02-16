@@ -61,6 +61,9 @@ function del(config, auth, className, objectId) {
     if (!auth.isMaster) {
       options.acl = ['*'];
       if (auth.user) {
+        auth.userRoles.forEach(function(value) {
+          options.acl.push(value);
+        });
         options.acl.push(auth.user.id);
       }
     }

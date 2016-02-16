@@ -643,6 +643,9 @@ RestWrite.prototype.runDatabaseOperation = function() {
   if (!this.auth.isMaster) {
     options.acl = ['*'];
     if (this.auth.user) {
+      this.auth.userRoles.forEach(function(value) {
+        options.acl.push(value);
+      });
       options.acl.push(this.auth.user.id);
     }
   }
